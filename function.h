@@ -193,6 +193,28 @@ sort(a[i].begin(), a[i].end(), [&](auto const& lhs, auto const& rhs){
     return b[lhs] > b[rhs];
 });
 
+// 偏角ソート 2026/11/08追記
+// ABC442Eの偏角ソートの解説を参照
+// https://atcoder.jp/contests/abc442/editorial/15136
+
+struct point {
+    LL x;
+    LL y;
+};
+
+LL cross(const point &a, const point &b) {
+    return (LL) a.x * b.y - (LL) a.y * b.x;
+}
+bool cmp(const point &a, const point &b) {
+    LL ah = (a.y < 0 or (a.y == 0 and a.x < 0));
+    LL bh = (b.y < 0 or (b.y == 0 and b.x < 0));
+    if (ah != bh) return ah < bh;
+    return cross(a, b) > 0;
+}
+void argument_sort(vector<point> &points) {
+    sort(points.begin(), points.end(), cmp);
+}
+
 // for combination list
 vector<vector<LL>> v(n+1,vector<LL>(n+1,0));
 for(LL i=0; i<v.size(); i++){
